@@ -1,5 +1,6 @@
 package io.pivotal.kafkademo;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -9,6 +10,7 @@ import lombok.extern.apachecommons.CommonsLog;
 
 @Service
 @CommonsLog(topic = "Producer Logger")
+@RequiredArgsConstructor
 public class Producer {
 
     @Value("${topic.name}")
@@ -16,13 +18,8 @@ public class Producer {
 
     private final KafkaTemplate<String, User> kafkaTemplate;
 
-    @Autowired
-    public Producer(KafkaTemplate<String, User> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
-
     void sendMessage(User user) {
-        this.kafkaTemplate.send(this.TOPIC, user.getName().toString(), user);
+        this.kafkaTemplate.send(this.TOPIC, user.getName(), user);
         log.info(String.format("Produced user -> %s", user));
     }
 }

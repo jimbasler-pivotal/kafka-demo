@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @CommonsLog(topic = "Consumer Logger")
 public class Consumer {
 
-    @Value("${topic.name}")
-    private String topicName;
-
-    @KafkaListener(topics = "users", groupId = "group_id")
-    public void consume(ConsumerRecord<String, User> record) {
-        log.info(String.format("Consumed message -> %s", record.value()));
+    @KafkaListener(
+            topics = "#{'${topic.name}'}",
+            groupId = "simple-consumer"
+    )
+    public void consume(User record) {
+        log.info(String.format("Consumed message -> %s", record));
     }
 }
