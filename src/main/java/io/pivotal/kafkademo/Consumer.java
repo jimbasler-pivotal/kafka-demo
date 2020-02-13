@@ -12,7 +12,7 @@ public class Consumer {
 
     @KafkaListener(
             topics = "#{'${topic.name}'}",
-            groupId = "simple-consumer"
+            groupId = "test1"
     )
     public void consume(User record) {
         log.info(String.format("Consumed message -> %s", record));
